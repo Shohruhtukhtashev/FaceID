@@ -54,12 +54,12 @@ def markAttendance(name):
 encodeListKnown = findEncodings(images)
 print('Encoding Complete')
 
-cap = glob.glob("/content/drive/MyDrive/Colab Notebooks/Face/test/*")
-
-for i in range(len(cap)):
-  img = cv2.imread(cap[i])
-  imgS = cv2.resize(img, (0,0), None, 0.25, 0.25)
-
+cap = cv2.VideoCapture(0)
+while True:
+  success, img = cap.read()
+  #img = captureScreen()
+  imgS = cv2.resize(img,(0,0),None,0.25,0.25)
+  imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
   facesCurFrame = face_recognition.face_locations(imgS)
   encodesCutFrame = face_recognition.face_encodings(imgS, facesCurFrame)
@@ -78,6 +78,7 @@ for i in range(len(cap)):
       y1,x2,y2,x1 = y1*4,x2*4,y2*4,x1*4
       cv2.rectangle(img, (x1,y1),(x2,y2),(0,255,0),2)
       cv2.rectangle(img, (x2,y2-35),(x2,y2),(0,255,0),cv2.FILLED)
-      cv2.putText(imgS,name,(x1,y2),cv2.FONT_HERSHEY_COMPLEX,1,(255,255,255),2)
+      cv2.putText(img,name,(x1,y2),cv2.FONT_HERSHEY_COMPLEX,1,(255,255,255),2)
       markAttendance(name)
-  cv2_imshow(imgS)
+  cv2.imshow('Webcam',img)
+  cv2.waitKey(1)
