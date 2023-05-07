@@ -25,7 +25,7 @@ print(className)
 
 # csv file create, write and update
 
-with open("information.csv","w") as f:
+with open("information.csv","w+") as f:
   f.writelines('Name,Group,Course,Time')
 
 # Training process
@@ -39,9 +39,7 @@ def findEncodings(image):
   return encodeList
 
 def markAttendance(name):
-  info = ["group","course"]
-  student = ["Students_name"]
-  summary = dict.fromkeys(student,info)
+  
   with open("/content/drive/MyDrive/Colab Notebooks/Face/information.csv","r+") as f:
     nameList = []
     myDataList = f.readline()
@@ -51,7 +49,7 @@ def markAttendance(name):
     if name not in nameList:
       now = datetime.now()
       dtString = now.strftime('%H:%M:%S')
-      f.writelines(f"\n{name},{','.join(summary[name])},{dtString}")
+      f.writelines(f"\n{name},{dtString}")
 
 encodeListKnown = findEncodings(images)
 print('Encoding Complete')
